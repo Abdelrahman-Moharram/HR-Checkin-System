@@ -1,4 +1,7 @@
 import math
+import pandas as pd
+from io import BytesIO
+from django.http import HttpResponse
 
 def haversine(lat1, lon1, lat2, lon2, office_radius=5):
     
@@ -19,3 +22,24 @@ def to_float_or_0(val):
         return float(val)
     except:
         return 0
+
+
+def export_as_excel(data, file_name, excluded_cols=[]):
+    df = pd.DataFrame(data)
+    
+    if excluded_cols:
+        df = df.drop(excluded_cols, axis=1)
+
+
+    buffer = BytesIO()
+    
+    with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False)
+    
+    buffer.seek(0)
+    
+    response = HttpResponse(buffer, content_type='application/ms-excel')
+    response['Content-Disposition'] = f'attachment; filename="{file_name}.xlsx"'
+    
+    return response
+

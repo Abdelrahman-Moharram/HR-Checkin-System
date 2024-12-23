@@ -6,9 +6,11 @@ from .permissions import IsOfficeAdmin, IsOfficeMember
 from .serializer import *
 from rest_framework.decorators import api_view, permission_classes
 from accounts.serializers import UserFormSerial
-from project.helper import haversine, to_float_or_0
-from datetime import datetime, timezone
+from project.helper import haversine, to_float_or_0, export_as_excel
+from datetime import datetime, timezone, date
 from accounts.models import User
+
+
 
 def get_office_or_return_404(id):
     office = Office.objects.filter(id=id)
@@ -226,6 +228,8 @@ def get_check_ins_history(request, office_id):
     if not attendances_serial.is_valid():
         pass
 
+    if 'excel' in request.GET:
+        return export_as_excel(data=attendances_serial.data, file_name='Attendances', excluded_cols=[])
     return Response(
         {
             'attendances': attendances_serial.data,
@@ -236,6 +240,7 @@ def get_check_ins_history(request, office_id):
 @api_view(['GET'])
 @permission_classes([IsOfficeAdmin])
 def get_check_ins_history_for_employee(request, office_id, employee_id):
+    
     employee        = User.objects.filter(id=employee_id).first()
     if not employee:
         return Response(
@@ -247,8 +252,11 @@ def get_check_ins_history_for_employee(request, office_id, employee_id):
     attendances             = Attendance.objects.filter(office__id=office_id, user=employee).order_by('-check_in')
     attendances_serial      = AttendanceSerializer(data=attendances, many=True)
 
+
     if not attendances_serial.is_valid():
         pass
+
+    
 
     return Response(
         {
@@ -257,3 +265,98 @@ def get_check_ins_history_for_employee(request, office_id, employee_id):
         },
         status=status.HTTP_200_OK
     )
+
+@api_view(['GET'])
+@permission_classes([IsOfficeAdmin])
+def get_employee_status(request, office_id, employee_id):
+    
+    attendance = Attendance.objects.filter(office__id=office_id, user__id=employee_id)
+    if not attendance:
+        return Response(
+            {
+                'error': "this employee isn't registered in this office"
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    return Response(
+        {
+            'status': 'present' if attendance.filter(check_in=date.today()).exists() else 'absent',
+        },
+        status=status.HTTP_200_OK
+    )
+
+
+@api_view(['POST'])
+@permission_classes([IsOfficeAdmin])
+def change_office_location(request, office_id):
+    check_office = get_office_or_return_404(office_id)
+    if not check_office['is_valid']:
+        return check_office['response']
+    
+    office = check_office['office'].first()
+
+    latitude        = request.POST.get('latitude', None)
+    longitude       = request.POST.get('longitude', None)
+    office_radius   = request.POST.get('office_radius', None)
+
+
+    if not latitude or not longitude or not office_radius:
+        return Response(
+            {
+                'message': "Invalid location, Can't get your coordinates correctly try again later"
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        ) 
+
+    # TODO -> take the result of this function instead of checking the exact location of lat, long existance because it might not the same actual value
+    # haversine(lat1=to_float_or_0(office.location.latitude), lon1=to_float_or_0(office.location.longitude), lat2=location.latitude, lon2=location.longitude, office_radius=office_radius)
+    location, is_created = Location.objects.get_or_create(longitude=longitude, latitude=latitude)
+
+    if not is_created:
+        o_location      = Office_Location.objects.filter(office=office, location=location).first()
+        if not o_location.is_present:
+
+            # checkout all checkedin employees
+            Attendance.objects.filter(office=office, check_out=None).update(check_out=datetime.now(tz=timezone.utc))
+            # change Location state to be not present
+            Office_Location.objects.filter(office=office, is_present=True).update(is_present=False)
+            
+            o_location.is_present   = True
+            o_location.save()
+            return Response(
+                {
+                    'message': f'Office {office.name} Location is Switched to old Location successfully!'
+                },
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            {
+                'error': f'The old Office Location is the same of the new location'
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    else:
+
+        # checkout all checkedin employees
+        Attendance.objects.filter(office=office, check_out=None).update(check_out=datetime.now(tz=timezone.utc))
+        # change Location state to be not present
+        Office_Location.objects.filter(office=office, is_present=True).update(is_present=False)
+
+        # Creating new location
+        o_location      = Office_Location.objects.create(office=office, location=location, is_present=True)
+        o_location.save()
+
+
+        
+
+        return Response(
+            {
+                'message': f'Office {office.name} Location is changed successfully!'
+            },
+            status=status.HTTP_201_CREATED
+        )
+
+
+
+
