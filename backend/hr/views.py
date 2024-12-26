@@ -381,7 +381,6 @@ def calculate_daily_total_hours(request, office_id):
         hours, remainder = divmod(total_hours[user].total_seconds(), 3600)
         minutes = remainder // 60
         total_hours[user] = f"{int(hours):02}:{int(minutes):02}"
-    print(total_hours)
     return Response(
         {
             'total_hours': total_hours

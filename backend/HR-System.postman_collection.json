@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "804d7d2e-d0ae-414c-84aa-e1bc57011d35",
+		"name": "HR-System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28540492"
+	},
+	"item": [
+		{
+			"name": "HR",
+			"item": [
+				{
+					"name": "offices",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0Nzg1NzU1LCJpYXQiOjE3MzQ3ODU0NTUsImp0aSI6ImZkNjUwMjE4MjljYjQ2NzZhNDliMzIwYjgwMTdiYTI2IiwidXNlcl9pZCI6MSwiaWQiOiIxIiwiZW1haWwiOiJhZG1pbkBzaXRlLmNvbSIsIm5hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiJ9.h_kSlOM37H85rCvYRiAEqc3KK0NSfhNixzTOPAMPpLc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/offices/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"offices",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_office_by_id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0Nzk4NTAwLCJpYXQiOjE3MzQ3OTgyMDAsImp0aSI6IjY1NWU1NTNjZDAxZDRkYjc4ZDNkNGIxZmE4MzE1MDE0IiwidXNlcl9pZCI6MSwiaWQiOiIxIiwiZW1haWwiOiJhZG1pbkBzaXRlLmNvbSIsIm5hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiJ9.isEpnzX2_PufMfODoDfrfd50FX9VTgYKFbyFfYyQxyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/offices/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"offices",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_user_to_office",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0ODAwOTIyLCJpYXQiOjE3MzQ4MDA2MjIsImp0aSI6IjY3YjdhNmFlYzBmNzRjYjhiMzA3ZTQ5Y2ExYzRlN2VjIiwidXNlcl9pZCI6MSwiaWQiOiIxIiwiZW1haWwiOiJhZG1pbkBzaXRlLmNvbSIsIm5hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiJ9.iQNbxJ38s15FLH0ODy1RQafEheJjqtvNlHLDN45QS90",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "ahmed-ali@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "ahmed-ali",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/offices/1/employees/add/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"offices",
+								"1",
+								"employees",
+								"add",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check-in",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0ODk4Mzg4LCJpYXQiOjE3MzQ4OTgwODgsImp0aSI6IjYxZmIwYzhkMDdhZDQ4OGU5ODQ1NmFhNDBkMWE0YzVkIiwidXNlcl9pZCI6MTIsImlkIjoiMTIiLCJlbWFpbCI6ImFobWVkLWFsaUBnbWFpbC5jb20iLCJuYW1lIjoiYWhtZWQtYWxpIiwicm9sZSI6IkVtcGxveWVlIn0.gpnnELSmC9VTLsYkf8hT0_pArIjei7OkEk8uVa8sm_4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "latitude",
+									"value": "31.244608",
+									"type": "text"
+								},
+								{
+									"key": "longitude",
+									"value": "29.965314",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/offices/1/employees/check-in/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"offices",
+								"1",
+								"employees",
+								"check-in",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check-out",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "latitude",
+									"value": "31.244608",
+									"type": "text"
+								},
+								{
+									"key": "longitude",
+									"value": "29.965314",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/offices/1/employees/check-out/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"offices",
+								"1",
+								"employees",
+								"check-out",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check-ins-history-for-emp",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0ODk4NTAzLCJpYXQiOjE3MzQ4OTgyMDMsImp0aSI6ImI2MzlkODlhNDZjMjQxMzQ4ZjY2NzdjZmEwMGMwOGRhIiwidXNlcl9pZCI6MSwiaWQiOiIxIiwiZW1haWwiOiJhZG1pbkBzaXRlLmNvbSIsIm5hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiJ9.DczWui8iK1AxNjkWg5N9wV5qAKhqaX2Lkw3gk1cx948",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/offices/1/employees/12/check-ins/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"offices",
+								"1",
+								"employees",
+								"12",
+								"check-ins",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check-ins-history",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTczNjYwLCJpYXQiOjE3MzQ5NzMzNjAsImp0aSI6ImVmMzk4MWIxYjQ5ZjQyMjJiOTZkMTU5MjFhMGZkNWRiIiwidXNlcl9pZCI6MSwiaWQiOiIxIiwiZW1haWwiOiJhZG1pbkBzaXRlLmNvbSIsIm5hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiJ9.OMQ6Ag4aN6Qab2MNe_w1M3oDPL0Bq6EX3JyWKGjl-lM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/offices/1/employees/check-ins/?excel=1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"offices",
+								"1",
+								"employees",
+								"check-ins",
+								""
+							],
+							"query": [
+								{
+									"key": "excel",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check-ins-history (excel)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTczNjYwLCJpYXQiOjE3MzQ5NzMzNjAsImp0aSI6ImVmMzk4MWIxYjQ5ZjQyMjJiOTZkMTU5MjFhMGZkNWRiIiwidXNlcl9pZCI6MSwiaWQiOiIxIiwiZW1haWwiOiJhZG1pbkBzaXRlLmNvbSIsIm5hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiJ9.OMQ6Ag4aN6Qab2MNe_w1M3oDPL0Bq6EX3JyWKGjl-lM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/offices/1/employees/check-ins/?excel=1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"offices",
+								"1",
+								"employees",
+								"check-ins",
+								""
+							],
+							"query": [
+								{
+									"key": "excel",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change-Location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0OTg2MjA4LCJpYXQiOjE3MzQ5ODU5MDgsImp0aSI6IjBlNjMzZWVmMzI3NDRlMzViZmY5OGY4MDczZGY4Mzg1IiwidXNlcl9pZCI6MSwiaWQiOiIxIiwiZW1haWwiOiJhZG1pbkBzaXRlLmNvbSIsIm5hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiJ9.Hc39o7aT4AwpVO1H6y_mX_mqO4LabACmP84RrYuijV4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "latitude",
+									"value": "31.244500",
+									"type": "text"
+								},
+								{
+									"key": "longitude",
+									"value": "29.965314",
+									"type": "text"
+								},
+								{
+									"key": "office_radius",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/offices/1/change-location/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"offices",
+								"1",
+								"change-location",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "employee-status",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "calculate total attendance hours for office",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "accounts",
+			"item": [
+				{
+					"name": "jwt-create",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "{{X-CSRF-TOKEN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@site.com\",\r\n  \"password\": \"123\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/users/jwt/create/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"jwt",
+								"create",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
