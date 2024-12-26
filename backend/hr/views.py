@@ -278,10 +278,12 @@ def get_employee_status(request, office_id, employee_id):
             },
             status=status.HTTP_400_BAD_REQUEST
         )
-    
+    today = datetime.today()
+    start_of_day = datetime.combine(today, datetime.min.time())
+    end_of_day = datetime.combine(today, datetime.max.time())
     return Response(
         {
-            'status': 'present' if attendance.filter(check_in=date.today()).exists() else 'absent',
+            'status': 'present' if attendance.filter(check_in__range=(start_of_day, end_of_day)).exists() else 'absent',
         },
         status=status.HTTP_200_OK
     )
@@ -359,4 +361,30 @@ def change_office_location(request, office_id):
 
 
 
+@api_view(['GET'])
+@permission_classes([IsOfficeAdmin])
+def calculate_daily_total_hours(request, office_id):
+    today = datetime.today()
+    start_of_day = datetime.combine(today, datetime.min.time())
+    end_of_day = datetime.combine(today, datetime.max.time())
+    attendanecs = Attendance.objects.filter(office__id=office_id,check_in__range=(start_of_day, end_of_day)).order_by('-check_in')
+    
+    total_hours = dict()
+    for attendance in attendanecs:
+        check_out = attendance.check_out if attendance.check_out else datetime.now(tz=timezone.utc)
+        if attendance.user.name in total_hours:
+            total_hours[attendance.user.name] += check_out - attendance.check_in
+        else:
+            total_hours[attendance.user.name] = check_out - attendance.check_in
 
+    for user in total_hours.keys():
+        hours, remainder = divmod(total_hours[user].total_seconds(), 3600)
+        minutes = remainder // 60
+        total_hours[user] = f"{int(hours):02}:{int(minutes):02}"
+    print(total_hours)
+    return Response(
+        {
+            'total_hours': total_hours
+        },
+        status=status.HTTP_200_OK
+    )
